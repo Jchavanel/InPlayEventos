@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="InPlay Eventos - torneos de pádel, experiencias y eventos deportivos." />
+  <title>InPlay Eventos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">InPlay Eventos</div>
+      <nav>
+        <a href="#eventos">Eventos</a>
+        <a href="#circuitos">Circuitos</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Web base V1</span>
+          <h1>Eventos de pádel y experiencias deportivas con una presencia web clara y lista para crecer.</h1>
+          <p>
+            Esta versión está pensada como una web sólida y publicable, sin dependencias complejas.
+            Más adelante se puede evolucionar a inscripciones, pagos, cuadros y panel de gestión.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#eventos">Ver eventos</a>
+            <a class="btn btn-secondary" href="#contacto">Contactar</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="stat">
+            <span class="stat-label">Estado</span>
+            <strong>Publicable</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Tecnología</span>
+            <strong>HTML + CSS + JS</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Hosting</span>
+            <strong>GitHub Pages / Hosting estático</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Siguiente evolución</span>
+            <strong>Inscripciones y pagos</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="eventos" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Calendario</span>
+            <h2>Próximos eventos</h2>
+          </div>
+          <button id="toggle-view" class="btn btn-secondary small">Cambiar vista</button>
+        </div>
+
+        <div id="events-grid" class="cards"></div>
+      </div>
+    </section>
+
+    <section id="circuitos" class="section alt">
+      <div class="container two-col">
+        <div>
+          <span class="eyebrow">Circuitos</span>
+          <h2>Estructura preparada para circuitos y torneos</h2>
+          <p>
+            La web ya presenta eventos, sedes, fechas y niveles. En una siguiente fase se puede conectar
+            con clasificaciones, cuadros, ranking y área privada de jugadores.
+          </p>
+          <ul class="feature-list">
+            <li>Landing clara para eventos y circuitos</li>
+            <li>Detalle de evento con CTA principal</li>
+            <li>Sección de resultados y clasificación pública</li>
+            <li>Base sencilla para escalar sin rehacer desde cero</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Fases recomendadas</h3>
+          <ol>
+            <li>Web pública estable</li>
+            <li>Formulario de inscripción</li>
+            <li>Pago online</li>
+            <li>Cuadros y resultados</li>
+            <li>Panel de organización</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultados" class="section">
+      <div class="container">
+        <span class="eyebrow">Resultados</span>
+        <h2>Clasificación pública de ejemplo</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Posición</th>
+                <th>Pareja</th>
+                <th>Puntos</th>
+                <th>Partidos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>López / Ramírez</td>
+                <td>9</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Pérez / Gil</td>
+                <td>6</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Martín / León</td>
+                <td>3</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="section alt">
+      <div class="container two-col">
+        <div>
+          <span class="eyebrow">Contacto</span>
+          <h2>Hablemos del siguiente paso</h2>
+          <p>
+            Esta web base ya sirve para publicar la marca y los eventos. Cuando quieras, el siguiente paso
+            razonable es añadir un flujo de inscripción real sin romper la estructura actual.
+          </p>
+        </div>
+        <form class="contact-form" onsubmit="return false;">
+          <input type="text" placeholder="Nombre" />
+          <input type="email" placeholder="Email" />
+          <textarea rows="5" placeholder="Cuéntanos qué evento quieres publicar"></textarea>
+          <button class="btn btn-primary" type="submit">Enviar</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>© 2026 InPlay Eventos</span>
+      <span>Web base preparada para crecer</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
