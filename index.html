@@ -3,167 +3,293 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="InPlay Eventos - torneos de pádel, experiencias y eventos deportivos." />
-  <title>InPlay Eventos</title>
+  <meta name="description" content="InPlay Eventos organiza torneos de pádel, circuitos y experiencias deportivas con una imagen premium y una base lista para crecer." />
+  <title>InPlay Eventos | Torneos, circuitos y experiencias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">InPlay Eventos</div>
-      <nav>
-        <a href="#eventos">Eventos</a>
-        <a href="#circuitos">Circuitos</a>
-        <a href="#resultados">Resultados</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-    </div>
-  </header>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="#top" class="brand" aria-label="InPlay Eventos inicio">
+          <span class="brand-mark">IP</span>
+          <span class="brand-copy">
+            <strong>InPlay</strong>
+            <small>Eventos & Circuitos</small>
+          </span>
+        </a>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav id="main-nav" class="main-nav">
+          <a href="#propuesta">Propuesta</a>
+          <a href="#eventos">Eventos</a>
+          <a href="#circuitos">Circuitos</a>
+          <a href="#resultados">Resultados</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section-hero">
+        <div class="hero-backdrop"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <span class="eyebrow eyebrow-gold">Pádel, comunidad y experiencias premium</span>
+            <h1>Una imagen más sólida para vender mejor tus eventos.</h1>
+            <p class="hero-lead">
+              InPlay evoluciona desde una web base hacia una presencia digital con más valor percibido,
+              mejor narrativa comercial y una estructura preparada para activar inscripciones, pagos y operativa real.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#eventos">Explorar eventos</a>
+              <a class="btn btn-secondary" href="#contacto">Solicitar información</a>
+            </div>
+            <ul class="hero-metrics" aria-label="Métricas destacadas">
+              <li><strong>+3</strong><span>Líneas de negocio</span></li>
+              <li><strong>Canarias</strong><span>Base geográfica</span></li>
+              <li><strong>V1 lista</strong><span>Para seguir creciendo</span></li>
+            </ul>
+          </div>
+
+          <aside class="hero-panel reveal">
+            <div class="hero-panel-card glass-card">
+              <p class="mini-title">Estado del proyecto</p>
+              <div class="status-pill">
+                <span class="status-dot"></span>
+                Web pública optimizada
+              </div>
+              <div class="panel-stats">
+                <article>
+                  <span>Stack</span>
+                  <strong>HTML · CSS · JS</strong>
+                </article>
+                <article>
+                  <span>Objetivo inmediato</span>
+                  <strong>Captar y presentar mejor</strong>
+                </article>
+                <article>
+                  <span>Siguiente fase</span>
+                  <strong>Inscripción real</strong>
+                </article>
+              </div>
+            </div>
+            <div class="hero-mini-grid">
+              <article class="mini-card glass-card">
+                <p>Eventos</p>
+                <strong>Torneos, circuitos y experiencias</strong>
+              </article>
+              <article class="mini-card glass-card">
+                <p>Roadmap</p>
+                <strong>Captación → Inscripción → Pago</strong>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="propuesta" class="section section-tight">
+        <div class="container">
+          <div class="section-head centered reveal">
+            <span class="eyebrow">Propuesta de valor</span>
+            <h2>Una marca que debe sentirse mejor antes de vender más.</h2>
+            <p>
+              La prioridad de esta fase es elevar percepción, confianza y claridad comercial.
+              Antes de incorporar lógica de negocio, la web debe transmitir mejor quién organiza,
+              qué tipo de eventos ofrece y por qué el usuario debería interesarse.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card reveal">
+              <span class="feature-icon">01</span>
+              <h3>Torneos de pádel</h3>
+              <p>Eventos principales con categorías, sedes, calendario y estructura lista para evolucionar a inscripción y cuadro.</p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-icon">02</span>
+              <h3>Circuitos y series</h3>
+              <p>Una base visual pensada para conectar pruebas, resultados, ranking y seguimiento de temporada sin rehacer marca.</p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-icon">03</span>
+              <h3>Experiencias y comunidad</h3>
+              <p>La web también soporta actividades paralelas para patrocinadores, networking y experiencias más allá del torneo.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="eventos" class="section">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">Calendario</span>
+              <h2>Próximos eventos destacados</h2>
+              <p>Una parrilla con más presencia visual, mejores mensajes y un tono más premium para apoyar captación.</p>
+            </div>
+            <button id="toggle-view" class="btn btn-secondary small" type="button">Cambiar vista</button>
+          </div>
+
+          <div id="events-grid" class="cards reveal"></div>
+        </div>
+      </section>
+
+      <section id="circuitos" class="section section-dark">
+        <div class="container two-col">
+          <div class="reveal">
+            <span class="eyebrow eyebrow-dark">Circuitos</span>
+            <h2>Preparada para crecer hacia una plataforma real de circuito.</h2>
+            <p>
+              La nueva home ya organiza mejor el relato: eventos, continuidad, resultados y contacto.
+              Sobre esta base la siguiente fase natural es activar páginas de detalle, formularios de inscripción y flujo comercial.
+            </p>
+            <ul class="feature-list">
+              <li>Mensaje de marca más robusto</li>
+              <li>Estructura visual más premium</li>
+              <li>Secciones mejor jerarquizadas</li>
+              <li>Base limpia para integrar nuevas funciones</li>
+            </ul>
+          </div>
+          <div class="roadmap-card reveal">
+            <p class="mini-title">Roadmap claro</p>
+            <ol class="roadmap-list">
+              <li><strong>Fase 1</strong><span>Imagen, narrativa y credibilidad comercial</span></li>
+              <li><strong>Fase 2</strong><span>Detalle de evento e inscripción real</span></li>
+              <li><strong>Fase 3</strong><span>Pago online y estados de plaza</span></li>
+              <li><strong>Fase 4</strong><span>Resultados, cuadros y clasificación</span></li>
+              <li><strong>Fase 5</strong><span>Panel de organización</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="resultados" class="section">
+        <div class="container results-layout">
+          <div class="results-copy reveal">
+            <span class="eyebrow">Resultados</span>
+            <h2>Una muestra pública que anticipa la parte competitiva.</h2>
+            <p>
+              En esta fase la clasificación sigue siendo representativa. Visualmente ya se presenta con más peso,
+              para ir acostumbrando la marca a una lectura más profesional del torneo.
+            </p>
+          </div>
+          <div class="table-wrap reveal">
+            <table>
+              <thead>
+                <tr>
+                  <th>Posición</th>
+                  <th>Pareja</th>
+                  <th>Puntos</th>
+                  <th>Partidos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#1</td>
+                  <td>López / Ramírez</td>
+                  <td>9</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>#2</td>
+                  <td>Pérez / Gil</td>
+                  <td>6</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>#3</td>
+                  <td>Martín / León</td>
+                  <td>3</td>
+                  <td>3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt-soft">
+        <div class="container showcase-grid">
+          <article class="showcase-card reveal">
+            <span class="eyebrow">Para jugadores</span>
+            <h3>Un entorno más bonito genera más confianza.</h3>
+            <p>Mejor presentación, mejor comprensión del evento y una base más sólida para convertir visitas en registros.</p>
+          </article>
+          <article class="showcase-card reveal">
+            <span class="eyebrow">Para organizadores</span>
+            <h3>Una web más seria ayuda a vender mejor el evento.</h3>
+            <p>La percepción de calidad importa. Esta fase no es solo estética: también ordena la propuesta comercial.</p>
+          </article>
+          <article class="showcase-card reveal">
+            <span class="eyebrow">Para patrocinadores</span>
+            <h3>Mejor marca, mejor contexto para activaciones.</h3>
+            <p>Una identidad más cuidada da mejor soporte a acuerdos, imagen y visibilidad de partners.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contacto" class="section section-contact">
+        <div class="container contact-layout">
+          <div class="contact-copy reveal">
+            <span class="eyebrow eyebrow-gold">Contacto</span>
+            <h2>Empecemos a preparar la siguiente fase.</h2>
+            <p>
+              Esta versión ya deja una base más seria para presentar la marca. El siguiente salto útil es activar
+              páginas de evento y formularios reales de inscripción sobre esta estructura.
+            </p>
+            <div class="contact-points">
+              <div>
+                <strong>Objetivo inmediato</strong>
+                <span>Mejor imagen y mejor claridad comercial</span>
+              </div>
+              <div>
+                <strong>Siguiente entrega</strong>
+                <span>Detalle de evento + formulario</span>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contact-form" novalidate>
+            <label>
+              <span>Nombre</span>
+              <input type="text" name="name" placeholder="Tu nombre" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="tu@email.com" required />
+            </label>
+            <label>
+              <span>Mensaje</span>
+              <textarea name="message" rows="5" placeholder="Cuéntanos qué tipo de evento quieres impulsar" required></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">Enviar consulta</button>
+            <p id="form-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
         <div>
-          <span class="eyebrow">Web base V1</span>
-          <h1>Eventos de pádel y experiencias deportivas con una presencia web clara y lista para crecer.</h1>
-          <p>
-            Esta versión está pensada como una web sólida y publicable, sin dependencias complejas.
-            Más adelante se puede evolucionar a inscripciones, pagos, cuadros y panel de gestión.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#eventos">Ver eventos</a>
-            <a class="btn btn-secondary" href="#contacto">Contactar</a>
-          </div>
+          <strong>© 2026 InPlay Eventos</strong>
+          <span>Base web optimizada para la Fase 1 del roadmap</span>
         </div>
-        <div class="hero-card">
-          <div class="stat">
-            <span class="stat-label">Estado</span>
-            <strong>Publicable</strong>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Tecnología</span>
-            <strong>HTML + CSS + JS</strong>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Hosting</span>
-            <strong>GitHub Pages / Hosting estático</strong>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Siguiente evolución</span>
-            <strong>Inscripciones y pagos</strong>
-          </div>
-        </div>
+        <nav class="footer-nav">
+          <a href="#eventos">Eventos</a>
+          <a href="#circuitos">Circuitos</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
       </div>
-    </section>
-
-    <section id="eventos" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Calendario</span>
-            <h2>Próximos eventos</h2>
-          </div>
-          <button id="toggle-view" class="btn btn-secondary small">Cambiar vista</button>
-        </div>
-
-        <div id="events-grid" class="cards"></div>
-      </div>
-    </section>
-
-    <section id="circuitos" class="section alt">
-      <div class="container two-col">
-        <div>
-          <span class="eyebrow">Circuitos</span>
-          <h2>Estructura preparada para circuitos y torneos</h2>
-          <p>
-            La web ya presenta eventos, sedes, fechas y niveles. En una siguiente fase se puede conectar
-            con clasificaciones, cuadros, ranking y área privada de jugadores.
-          </p>
-          <ul class="feature-list">
-            <li>Landing clara para eventos y circuitos</li>
-            <li>Detalle de evento con CTA principal</li>
-            <li>Sección de resultados y clasificación pública</li>
-            <li>Base sencilla para escalar sin rehacer desde cero</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <h3>Fases recomendadas</h3>
-          <ol>
-            <li>Web pública estable</li>
-            <li>Formulario de inscripción</li>
-            <li>Pago online</li>
-            <li>Cuadros y resultados</li>
-            <li>Panel de organización</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section id="resultados" class="section">
-      <div class="container">
-        <span class="eyebrow">Resultados</span>
-        <h2>Clasificación pública de ejemplo</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Posición</th>
-                <th>Pareja</th>
-                <th>Puntos</th>
-                <th>Partidos</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>López / Ramírez</td>
-                <td>9</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Pérez / Gil</td>
-                <td>6</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Martín / León</td>
-                <td>3</td>
-                <td>3</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="contacto" class="section alt">
-      <div class="container two-col">
-        <div>
-          <span class="eyebrow">Contacto</span>
-          <h2>Hablemos del siguiente paso</h2>
-          <p>
-            Esta web base ya sirve para publicar la marca y los eventos. Cuando quieras, el siguiente paso
-            razonable es añadir un flujo de inscripción real sin romper la estructura actual.
-          </p>
-        </div>
-        <form class="contact-form" onsubmit="return false;">
-          <input type="text" placeholder="Nombre" />
-          <input type="email" placeholder="Email" />
-          <textarea rows="5" placeholder="Cuéntanos qué evento quieres publicar"></textarea>
-          <button class="btn btn-primary" type="submit">Enviar</button>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-row">
-      <span>© 2026 InPlay Eventos</span>
-      <span>Web base preparada para crecer</span>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>

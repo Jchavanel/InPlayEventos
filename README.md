@@ -1,18 +1,18 @@
-# InPlay Eventos - Web estática base
+# InPlay Eventos · Web estática Fase 1
 
-Proyecto web estático listo para subir a GitHub Pages o a cualquier hosting simple.
+Versión estática revisada para la Fase 1 del roadmap.
 
-## Contenido
+## Objetivo
+Mejorar la imagen de marca, la percepción premium y la claridad comercial antes de incorporar inscripción, pagos y lógica de negocio.
+
+## Archivos
 - `index.html`
 - `styles.css`
 - `script.js`
 
-## Publicación en GitHub Pages
-1. Sube estos archivos al repositorio.
-2. En GitHub ve a `Settings > Pages`.
-3. En `Source`, selecciona `Deploy from a branch`.
-4. Elige la rama `main` y la carpeta `/ (root)`.
-5. Guarda los cambios.
+## Publicación
+Se puede publicar directamente en GitHub Pages o cualquier hosting estático.
+No requiere Node, build ni dependencias.
 
-## Nota
-Esta versión es una web base. No incluye backend, pagos ni base de datos.
+## Próximo paso recomendado
+Fase 2: páginas de detalle de evento + formulario real de inscripción.
