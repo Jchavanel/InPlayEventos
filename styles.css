@@ -949,3 +949,22 @@ td { color: var(--text-dark); }
     max-height: calc(100vh - 14px);
   }
 }
+
+
+.form-message.success { color: #157347; }
+label textarea {
+  width: 100%;
+  min-height: 108px;
+  resize: vertical;
+}
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+button:disabled {
+  opacity: .72;
+  cursor: wait;
+}

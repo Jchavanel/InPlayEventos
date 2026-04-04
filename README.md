@@ -20,3 +20,13 @@ No requiere Node, build ni dependencias.
 
 ## Próximo paso recomendado
 Fase 2: páginas de detalle de evento + formulario real de inscripción.
+
+
+## Supabase
+
+Esta versión conecta la preinscripción directamente contra una tabla `preinscriptions` de Supabase usando la clave pública (`anon/publishable key`) en frontend.
+
+Antes de publicar:
+1. Crea la tabla y políticas con el SQL facilitado.
+2. Verifica que RLS esté activado.
+3. Publica la web en GitHub Pages o en cualquier hosting estático.

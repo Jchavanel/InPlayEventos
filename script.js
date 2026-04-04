@@ -1,3 +1,9 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const SUPABASE_URL = 'https://rkothgsgephdymsoevkv.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_IepXz-tcIjqXCIrEzKN9QQ_UwAmVBE4';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const events = [
   {
     id: "foncal-2026",
@@ -305,34 +311,86 @@ function bindForm() {
   });
 }
 
+async function submitPreinscription(payload) {
+  const { error } = await supabase
+    .from('preinscriptions')
+    .insert([payload]);
+
+  if (error) throw error;
+}
+
+function setRegisterMessage(message, isError = false) {
+  registerMessage.textContent = message;
+  registerMessage.classList.toggle('error', isError);
+  registerMessage.classList.toggle('success', !isError);
+}
+
 function bindRegisterForm() {
   if (!registerForm || !registerMessage) return;
 
-  registerForm.addEventListener('submit', (event) => {
+  registerForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    const submitButton = registerForm.querySelector('button[type="submit"]');
     const formData = new FormData(registerForm);
-    const fullName = String(formData.get('fullName') || '').trim();
-    const email = String(formData.get('email') || '').trim();
-    const phone = String(formData.get('phone') || '').trim();
+    const payload = {
+      event_id: String(formData.get('eventId') || '').trim(),
+      event_label: String(formData.get('eventLabel') || '').trim(),
+      category: String(formData.get('category') || '').trim(),
+      full_name: String(formData.get('fullName') || '').trim(),
+      email: String(formData.get('email') || '').trim().toLowerCase(),
+      phone: String(formData.get('phone') || '').trim(),
+      partner: String(formData.get('partner') || '').trim(),
+      notes: String(formData.get('notes') || '').trim(),
+      source: 'web',
+      status: 'pending',
+      user_agent: navigator.userAgent,
+    };
     const accepted = formData.get('accept');
+    const honeypot = String(formData.get('website') || '').trim();
 
-    registerMessage.classList.remove('error');
+    registerMessage.classList.remove('error', 'success');
 
-    if (!fullName || !email || !phone || !accepted) {
-      registerMessage.textContent = 'Completa los campos obligatorios y acepta el tratamiento de datos.';
-      registerMessage.classList.add('error');
+    if (honeypot) {
+      setRegisterMessage('No se ha podido procesar la solicitud.', true);
       return;
     }
 
-    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!payload.event_id || !payload.event_label || !payload.category || !payload.full_name || !payload.email || !payload.phone || !accepted) {
+      setRegisterMessage('Completa los campos obligatorios y acepta el tratamiento de datos.', true);
+      return;
+    }
+
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email);
     if (!validEmail) {
-      registerMessage.textContent = 'Introduce un email válido.';
-      registerMessage.classList.add('error');
+      setRegisterMessage('Introduce un email válido.', true);
       return;
     }
 
-    registerMessage.textContent = 'Preinscripción registrada en esta demo. El siguiente paso es conectarla a almacenamiento y email real.';
-    registerForm.reset();
+    const validPhone = /^[+()\d\s-]{7,20}$/.test(payload.phone);
+    if (!validPhone) {
+      setRegisterMessage('Introduce un teléfono válido.', true);
+      return;
+    }
+
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+      }
+
+      await submitPreinscription(payload);
+      setRegisterMessage('Preinscripción enviada correctamente. Te contactaremos para confirmar disponibilidad y siguientes pasos.');
+      registerForm.reset();
+    } catch (error) {
+      console.error('Supabase insert error:', error);
+      setRegisterMessage('No se ha podido guardar la preinscripción. Revisa la configuración de Supabase o inténtalo de nuevo.', true);
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar preinscripción';
+      }
+    }
   });
 }
 

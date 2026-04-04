@@ -443,8 +443,17 @@
           </label>
           <label>
             <span>Compañero/a o acompañante</span>
-            <input type="text" name="partner" placeholder="Opcional en esta fase" />
+            <input type="text" name="partner" placeholder="Compañero/a (opcional)" />
           </label>
+          <label>
+            <span>Notas para la organización</span>
+            <textarea name="notes" rows="4" placeholder="Nivel, preferencias horarias o cualquier detalle útil (opcional)"></textarea>
+          </label>
+          <div class="hp-field" aria-hidden="true">
+            <label>Website
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
           <label class="checkbox-row">
             <input type="checkbox" name="accept" required />
             <span>Acepto el uso de estos datos para gestionar la inscripción.</span>
@@ -456,6 +465,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
