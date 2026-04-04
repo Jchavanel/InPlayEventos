@@ -2,34 +2,46 @@ const events = [
   {
     title: 'Open Foncal 2026',
     type: 'Torneo',
-    place: 'Gran Canaria',
+    place: 'Maspalomas Padel Center · Gran Canaria',
     date: '18 · 20 abril 2026',
     price: '25€',
-    text: 'Prueba principal de pádel con una comunicación más cuidada, mejor presencia visual y estructura preparada para evolucionar a inscripción real.',
+    text: 'Prueba principal de pádel con foco en experiencia de jugador, imagen cuidada y una base preparada para abrir inscripciones reales en la siguiente fase.',
     cta: 'Ver evento',
     badge: 'Evento principal',
+    categories: 'Masculina B · Femenina C · Mixto iniciación',
+    prize: 'Welcome pack + premios por categoría',
+    format: 'Parejas · cuadro final',
+    venue: 'Sede principal',
     gradient: 'linear-gradient(135deg, #0f172a, #243b68 48%, #7aaef8)'
   },
   {
     title: 'Circuito InPlay Verano',
     type: 'Circuito',
-    place: 'Canarias',
+    place: 'Gran Canaria · Tenerife',
     date: 'Mayo · agosto 2026',
     price: 'Desde 20€',
-    text: 'Serie de pruebas conectadas con potencial para ranking, seguimiento estacional y visibilidad reforzada de patrocinadores y comunidad.',
+    text: 'Serie de pruebas conectadas con potencial para ranking, patrocinio, continuidad de marca y lectura comercial de temporada.',
     cta: 'Explorar circuito',
     badge: 'Serie de pruebas',
+    categories: 'Categorías por nivel · ranking futuro',
+    prize: 'Premios acumulados + visibilidad partner',
+    format: 'Varias sedes · seguimiento estacional',
+    venue: 'Circuito regional',
     gradient: 'linear-gradient(135deg, #1a2440, #0f6bcf 45%, #8fd6ff)'
   },
   {
     title: 'Tejeda Outdoor & Networking',
     type: 'Experiencia',
-    place: 'Gran Canaria',
+    place: 'Tejeda · Gran Canaria',
     date: '03 mayo 2026',
     price: '18€',
     text: 'Actividad experiencial para ampliar el valor de la marca fuera de pista y reforzar comunidad, partners y momentos compartidos.',
     cta: 'Más información',
     badge: 'Experiencia premium',
+    categories: 'Ticket general · plazas limitadas',
+    prize: 'Ruta guiada + networking de cierre',
+    format: 'Outdoor · comunidad',
+    venue: 'Salida organizada',
     gradient: 'linear-gradient(135deg, #11261d, #21724b 45%, #8cd4ab)'
   }
 ];
@@ -54,6 +66,10 @@ function renderEvents() {
     <article>
       <div class="card-image" style="background:${sanitize(event.gradient)}">
         <span class="card-badge">${sanitize(event.badge)}</span>
+        <div class="card-overlay">
+          <span>${sanitize(event.venue)}</span>
+          <span>${sanitize(event.date)}</span>
+        </div>
       </div>
       <div class="card-body">
         <div class="meta">
@@ -62,7 +78,30 @@ function renderEvents() {
         </div>
         <h3>${sanitize(event.title)}</h3>
         <p>${sanitize(event.text)}</p>
-        <span class="card-date">${sanitize(event.date)}</span>
+        <div class="card-summary">
+          <article>
+            <span>Categorías / acceso</span>
+            <strong>${sanitize(event.categories)}</strong>
+          </article>
+          <article>
+            <span>Formato</span>
+            <strong>${sanitize(event.format)}</strong>
+          </article>
+        </div>
+        <div class="card-info-grid">
+          <article>
+            <span>Precio</span>
+            <strong>${sanitize(event.price)}</strong>
+          </article>
+          <article>
+            <span>Premio / extra</span>
+            <strong>${sanitize(event.prize)}</strong>
+          </article>
+          <article>
+            <span>Estado</span>
+            <strong>Próximamente inscripciones</strong>
+          </article>
+        </div>
         <div class="card-footer">
           <span class="price">${sanitize(event.price)}</span>
           <a class="btn btn-secondary small" href="#contacto">${sanitize(event.cta)}</a>
@@ -106,6 +145,8 @@ function bindForm() {
     const email = String(formData.get('email') || '').trim();
     const message = String(formData.get('message') || '').trim();
 
+    formMessage.classList.remove('error');
+
     if (!name || !email || !message) {
       formMessage.textContent = 'Completa nombre, email y mensaje antes de enviar.';
       formMessage.classList.add('error');
@@ -119,8 +160,7 @@ function bindForm() {
       return;
     }
 
-    formMessage.textContent = 'Mensaje preparado. En la siguiente fase se conectará a un envío real.';
-    formMessage.classList.remove('error');
+    formMessage.textContent = 'Mensaje preparado. La siguiente fase conectará este formulario a un envío real.';
     contactForm.reset();
   });
 }
