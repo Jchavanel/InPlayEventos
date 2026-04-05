@@ -649,25 +649,28 @@ function bindAdminAuth() {
     event.preventDefault();
     const formData = new FormData(adminLoginForm);
     const email = String(formData.get('adminEmail') || '').trim().toLowerCase();
+    const password = String(formData.get('adminPassword') || '');
     if (!email) {
       setAdminAuthMessage('Introduce un email de administración.', true);
       return;
     }
+    if (!password) {
+      setAdminAuthMessage('Introduce la contraseña del usuario admin.', true);
+      return;
+    }
 
     try {
-      const { error } = await supabase.auth.signInWithOtp({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
-        options: {
-          emailRedirectTo: window.location.href.split('#')[0] + '#admin'
-        }
+        password
       });
 
       if (error) throw error;
-      setAdminAuthMessage('Te hemos enviado un enlace de acceso. Abre el correo y vuelve a esta web con la sesión iniciada.');
+      setAdminAuthMessage('Sesión iniciada correctamente.');
       adminLoginForm.reset();
     } catch (error) {
       console.error('Admin auth error:', error);
-      setAdminAuthMessage('No se ha podido enviar el acceso. Comprueba la configuración de Supabase Auth.', true);
+      setAdminAuthMessage('No se ha podido iniciar sesión. Revisa email, contraseña y que el usuario exista en Supabase Auth.', true);
     }
   });
 

@@ -37,7 +37,7 @@ Antes de publicar:
 Esta versión añade:
 - preinscripción guardada en Supabase
 - panel básico de revisión
-- acceso admin mediante magic link de Supabase Auth
+- acceso admin mediante email + contraseña con Supabase Auth
 - actualización de estado (`pending`, `reviewed`, `confirmed`, `cancelled`)
 - confirmación por email asistida mediante `mailto:` desde el panel
 

@@ -362,7 +362,7 @@
               <span class="eyebrow">Fase 2.1</span>
               <h2>Panel básico para revisar preinscripciones y mover estados.</h2>
               <p>
-                Esta capa ya no es escaparate. Permite acceso admin por email mágico, lectura de preinscripciones y cambio de estado de
+                Esta capa ya no es escaparate. Permite acceso admin con email y contraseña, lectura de preinscripciones y cambio de estado de
                 <strong>pending</strong> a <strong>reviewed</strong> o <strong>confirmed</strong>.
               </p>
             </div>
@@ -371,15 +371,19 @@
           <div class="admin-grid reveal">
             <article class="admin-card admin-auth-card">
               <p class="mini-title">Acceso admin</p>
-              <h3>Entrar con enlace mágico de Supabase Auth.</h3>
-              <p class="admin-muted">Usa el email autorizado en las políticas RLS. Si aún no existe la sesión, la web enviará un enlace de acceso.</p>
+              <h3>Entrar con email y contraseña.</h3>
+              <p class="admin-muted">Usa un usuario existente de Supabase Auth cuyo email esté autorizado en las políticas RLS del panel.</p>
               <form id="admin-login-form" class="admin-login-form" novalidate>
                 <label>
                   <span>Email de administración</span>
-                  <input type="email" name="adminEmail" placeholder="admin@tu-dominio.com" required />
+                  <input type="email" name="adminEmail" placeholder="admin@tu-dominio.com" autocomplete="username" required />
+                </label>
+                <label>
+                  <span>Contraseña</span>
+                  <input type="password" name="adminPassword" placeholder="••••••••" autocomplete="current-password" required minlength="6" />
                 </label>
                 <div class="admin-auth-actions">
-                  <button type="submit" class="btn btn-primary">Recibir enlace de acceso</button>
+                  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                   <button type="button" id="admin-logout" class="btn btn-secondary btn-dark-outline">Cerrar sesión</button>
                 </div>
                 <p id="admin-auth-message" class="form-message" role="status" aria-live="polite"></p>
