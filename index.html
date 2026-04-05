@@ -33,6 +33,7 @@
           <a href="#confianza">Confianza</a>
           <a href="#circuitos">Circuitos</a>
           <a href="#contacto">Contacto</a>
+          <a href="#admin">Admin</a>
         </nav>
       </div>
     </header>
@@ -55,7 +56,7 @@
             <ul class="hero-metrics" aria-label="Métricas destacadas">
               <li><strong>3</strong><span>Formatos de evento</span></li>
               <li><strong>Canarias</strong><span>Territorio base</span></li>
-              <li><strong>Fase 2</strong><span>Detalle + inscripción</span></li>
+              <li><strong>Fase 2.1</strong><span>Preinscripción + gestión</span></li>
             </ul>
           </div>
 
@@ -77,7 +78,7 @@
                 </article>
                 <article>
                   <span>Siguiente fase</span>
-                  <strong>Persistencia y pago online</strong>
+                  <strong>Panel, estados y confirmación</strong>
                 </article>
               </div>
             </div>
@@ -281,9 +282,10 @@
             <ol class="roadmap-list">
               <li><strong>Fase 1</strong><span>Imagen, narrativa y credibilidad comercial</span></li>
               <li><strong>Fase 2</strong><span>Detalle de evento e inscripción web</span></li>
-              <li><strong>Fase 3</strong><span>Persistencia, estados y pago online</span></li>
+              <li><strong>Fase 2.1</strong><span>Panel básico, estados y email asistido</span></li>
+              <li><strong>Fase 3</strong><span>Pago online y automatizaciones</span></li>
               <li><strong>Fase 4</strong><span>Resultados, cuadros y clasificación</span></li>
-              <li><strong>Fase 5</strong><span>Panel de organización</span></li>
+              <li><strong>Fase 5</strong><span>Panel avanzado de organización</span></li>
             </ol>
           </div>
         </div>
@@ -344,11 +346,96 @@
           </article>
           <article class="showcase-card reveal">
             <span class="eyebrow">Siguiente decisión correcta</span>
-            <h3>Conectar la inscripción a almacenamiento, correo y estados.</h3>
+            <h3>Convertir registros en gestión real desde la propia web.</h3>
             <p>
-              Una vez validado este frontend, el siguiente salto útil es persistencia, notificación y cobro.
+              Esta fase 2.1 añade una base de operación: acceso admin, consulta de preinscripciones y actualización de estados.
             </p>
           </article>
+        </div>
+      </section>
+
+
+      <section id="admin" class="section section-admin">
+        <div class="container admin-layout">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">Fase 2.1</span>
+              <h2>Panel básico para revisar preinscripciones y mover estados.</h2>
+              <p>
+                Esta capa ya no es escaparate. Permite acceso admin por email mágico, lectura de preinscripciones y cambio de estado de
+                <strong>pending</strong> a <strong>reviewed</strong> o <strong>confirmed</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="admin-grid reveal">
+            <article class="admin-card admin-auth-card">
+              <p class="mini-title">Acceso admin</p>
+              <h3>Entrar con enlace mágico de Supabase Auth.</h3>
+              <p class="admin-muted">Usa el email autorizado en las políticas RLS. Si aún no existe la sesión, la web enviará un enlace de acceso.</p>
+              <form id="admin-login-form" class="admin-login-form" novalidate>
+                <label>
+                  <span>Email de administración</span>
+                  <input type="email" name="adminEmail" placeholder="admin@tu-dominio.com" required />
+                </label>
+                <div class="admin-auth-actions">
+                  <button type="submit" class="btn btn-primary">Recibir enlace de acceso</button>
+                  <button type="button" id="admin-logout" class="btn btn-secondary btn-dark-outline">Cerrar sesión</button>
+                </div>
+                <p id="admin-auth-message" class="form-message" role="status" aria-live="polite"></p>
+              </form>
+            </article>
+
+            <article class="admin-card admin-panel-card">
+              <div class="admin-panel-head">
+                <div>
+                  <p class="mini-title">Operación</p>
+                  <h3>Resumen de preinscripciones</h3>
+                </div>
+                <button type="button" id="admin-refresh" class="btn btn-secondary btn-dark-outline small">Actualizar</button>
+              </div>
+
+              <div id="admin-panel-locked" class="admin-empty-state">
+                <strong>Panel bloqueado</strong>
+                <p>Inicia sesión con un email autorizado para consultar y actualizar preinscripciones almacenadas en Supabase.</p>
+              </div>
+
+              <div id="admin-panel" class="admin-panel hidden">
+                <div class="admin-session-line">
+                  <span>Sesión activa:</span>
+                  <strong id="admin-session-email">-</strong>
+                </div>
+
+                <div class="admin-stats" id="admin-stats">
+                  <article><span>Total</span><strong id="stat-total">0</strong></article>
+                  <article><span>Pending</span><strong id="stat-pending">0</strong></article>
+                  <article><span>Reviewed</span><strong id="stat-reviewed">0</strong></article>
+                  <article><span>Confirmed</span><strong id="stat-confirmed">0</strong></article>
+                </div>
+
+                <div class="admin-toolbar">
+                  <label>
+                    <span>Buscar</span>
+                    <input type="search" id="admin-search" placeholder="Nombre, email o evento" />
+                  </label>
+                  <label>
+                    <span>Estado</span>
+                    <select id="admin-status-filter">
+                      <option value="all">Todos</option>
+                      <option value="pending">Pending</option>
+                      <option value="reviewed">Reviewed</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div id="admin-list" class="admin-list"></div>
+                <p id="admin-panel-message" class="form-message" role="status" aria-live="polite"></p>
+                <p class="admin-note">La confirmación por email en esta fase es asistida: el panel abre un borrador de correo desde tu cliente local. La automatización total requiere un secreto server-side o una Edge Function.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -398,6 +485,7 @@
           <a href="#eventos">Eventos</a>
           <a href="#confianza">Confianza</a>
           <a href="#contacto">Contacto</a>
+          <a href="#admin">Admin</a>
         </nav>
       </div>
     </footer>
@@ -418,7 +506,7 @@
       <div class="register-shell">
         <p class="mini-title">Fase 2</p>
         <h3 id="register-modal-title">Iniciar inscripción</h3>
-        <p class="register-intro">Formulario base para validar el flujo de inscripción desde la web.</p>
+        <p class="register-intro">Formulario conectado a Supabase para guardar la preinscripción y dejarla lista para revisión.</p>
         <form id="register-form" class="register-form" novalidate>
           <input type="hidden" name="eventId" />
           <label>

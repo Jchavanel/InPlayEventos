@@ -30,3 +30,21 @@ Antes de publicar:
 1. Crea la tabla y políticas con el SQL facilitado.
 2. Verifica que RLS esté activado.
 3. Publica la web en GitHub Pages o en cualquier hosting estático.
+
+
+## Fase 2.1 incluida
+
+Esta versión añade:
+- preinscripción guardada en Supabase
+- panel básico de revisión
+- acceso admin mediante magic link de Supabase Auth
+- actualización de estado (`pending`, `reviewed`, `confirmed`, `cancelled`)
+- confirmación por email asistida mediante `mailto:` desde el panel
+
+### Importante sobre el email
+
+La confirmación por email en esta fase no es un envío transaccional automático. Para automatizarlo de forma segura necesitas una Edge Function o un proveedor de email con secreto server-side.
+
+### SQL adicional necesario
+
+Debes permitir `select` y `update` a usuarios autenticados autorizados por email en las políticas RLS de `preinscriptions`.

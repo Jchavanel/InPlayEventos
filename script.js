@@ -380,7 +380,7 @@ function bindRegisterForm() {
       }
 
       await submitPreinscription(payload);
-      setRegisterMessage('Preinscripción enviada correctamente. Te contactaremos para confirmar disponibilidad y siguientes pasos.');
+      setRegisterMessage('Preinscripción enviada correctamente. Queda guardada en Supabase con estado pending para revisión del equipo.');
       registerForm.reset();
     } catch (error) {
       console.error('Supabase insert error:', error);
@@ -456,3 +456,283 @@ bindRegisterForm();
 bindEventActions();
 bindKeyboard();
 bindReveal();
+
+
+const adminLoginForm = document.getElementById('admin-login-form');
+const adminAuthMessage = document.getElementById('admin-auth-message');
+const adminLogoutButton = document.getElementById('admin-logout');
+const adminRefreshButton = document.getElementById('admin-refresh');
+const adminPanelLocked = document.getElementById('admin-panel-locked');
+const adminPanel = document.getElementById('admin-panel');
+const adminSessionEmail = document.getElementById('admin-session-email');
+const adminList = document.getElementById('admin-list');
+const adminPanelMessage = document.getElementById('admin-panel-message');
+const adminSearch = document.getElementById('admin-search');
+const adminStatusFilter = document.getElementById('admin-status-filter');
+const statTotal = document.getElementById('stat-total');
+const statPending = document.getElementById('stat-pending');
+const statReviewed = document.getElementById('stat-reviewed');
+const statConfirmed = document.getElementById('stat-confirmed');
+
+let adminRows = [];
+let adminSession = null;
+
+function escapeAttr(value) {
+  return sanitize(String(value ?? '')).replace(/"/g, '&quot;');
+}
+
+function formatDateTime(value) {
+  if (!value) return '—';
+  try {
+    return new Date(value).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+  } catch {
+    return value;
+  }
+}
+
+function setAdminAuthMessage(message, isError = false) {
+  if (!adminAuthMessage) return;
+  adminAuthMessage.textContent = message;
+  adminAuthMessage.classList.toggle('error', isError);
+  adminAuthMessage.classList.toggle('success', !!message && !isError);
+}
+
+function setAdminPanelMessage(message, isError = false) {
+  if (!adminPanelMessage) return;
+  adminPanelMessage.textContent = message;
+  adminPanelMessage.classList.toggle('error', isError);
+  adminPanelMessage.classList.toggle('success', !!message && !isError);
+}
+
+function updateAdminVisibility() {
+  const email = adminSession?.user?.email || '';
+  if (adminPanelLocked) adminPanelLocked.classList.toggle('hidden', !!email);
+  if (adminPanel) adminPanel.classList.toggle('hidden', !email);
+  if (adminSessionEmail) adminSessionEmail.textContent = email || '-';
+}
+
+function updateAdminStats(rows) {
+  if (!statTotal) return;
+  const counts = rows.reduce((acc, row) => {
+    acc.total += 1;
+    acc[row.status] = (acc[row.status] || 0) + 1;
+    return acc;
+  }, { total: 0, pending: 0, reviewed: 0, confirmed: 0, cancelled: 0 });
+
+  statTotal.textContent = counts.total;
+  statPending.textContent = counts.pending || 0;
+  statReviewed.textContent = counts.reviewed || 0;
+  statConfirmed.textContent = counts.confirmed || 0;
+}
+
+function getFilteredAdminRows() {
+  const q = String(adminSearch?.value || '').trim().toLowerCase();
+  const status = adminStatusFilter?.value || 'all';
+  return adminRows.filter((row) => {
+    const matchesStatus = status === 'all' || row.status === status;
+    if (!matchesStatus) return false;
+    if (!q) return true;
+    const haystack = [row.full_name, row.email, row.phone, row.event_label, row.category, row.partner].join(' ').toLowerCase();
+    return haystack.includes(q);
+  });
+}
+
+function buildMailto(row) {
+  const subject = encodeURIComponent(`InPlay · Estado de tu preinscripción: ${row.event_label}`);
+  const body = encodeURIComponent(`Hola ${row.full_name},
+
+Te escribimos desde InPlay sobre tu preinscripción para ${row.event_label}.
+
+Estado actual: ${row.status.toUpperCase()}
+Categoría: ${row.category}
+
+Próximos pasos:
+- Si está revisada, te confirmaremos disponibilidad y horario.
+- Si está confirmada, te enviaremos el siguiente detalle operativo.
+
+Gracias,
+Equipo InPlay`);
+  return `mailto:${encodeURIComponent(row.email)}?subject=${subject}&body=${body}`;
+}
+
+function renderAdminRows() {
+  if (!adminList) return;
+  const rows = getFilteredAdminRows();
+  updateAdminStats(adminRows);
+
+  if (!rows.length) {
+    adminList.innerHTML = '<div class="admin-empty-state compact"><strong>Sin resultados</strong><p>No hay preinscripciones que coincidan con los filtros actuales.</p></div>';
+    return;
+  }
+
+  adminList.innerHTML = rows.map((row) => `
+    <article class="admin-row">
+      <div class="admin-row-main">
+        <div class="admin-row-top">
+          <div>
+            <h4>${sanitize(row.full_name)}</h4>
+            <p>${sanitize(row.event_label)} · ${sanitize(row.category)}</p>
+          </div>
+          <span class="status-chip status-${escapeAttr(row.status)}">${sanitize(row.status)}</span>
+        </div>
+        <div class="admin-row-meta">
+          <span>${sanitize(row.email)}</span>
+          <span>${sanitize(row.phone)}</span>
+          <span>Creada: ${sanitize(formatDateTime(row.created_at))}</span>
+          <span>Partner: ${sanitize(row.partner || '—')}</span>
+        </div>
+        ${row.notes ? `<p class="admin-row-notes">${sanitize(row.notes)}</p>` : ''}
+      </div>
+      <div class="admin-row-actions">
+        <label>
+          <span>Estado</span>
+          <select data-status-id="${escapeAttr(row.id)}">
+            <option value="pending" ${row.status === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="reviewed" ${row.status === 'reviewed' ? 'selected' : ''}>Reviewed</option>
+            <option value="confirmed" ${row.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+            <option value="cancelled" ${row.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+          </select>
+        </label>
+        <div class="admin-inline-actions">
+          <button type="button" class="btn btn-secondary btn-dark-outline small" data-email-id="${escapeAttr(row.id)}">Email</button>
+          <button type="button" class="btn btn-primary small" data-save-id="${escapeAttr(row.id)}">Guardar</button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+async function loadAdminRows() {
+  const { data, error } = await supabase
+    .from('preinscriptions')
+    .select('id, created_at, event_id, event_label, category, full_name, email, phone, partner, notes, status')
+    .order('created_at', { ascending: false })
+    .limit(200);
+
+  if (error) throw error;
+  adminRows = data || [];
+  renderAdminRows();
+}
+
+async function updatePreinscriptionStatus(id, status) {
+  const { error } = await supabase
+    .from('preinscriptions')
+    .update({ status })
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+async function handleAdminSession(session) {
+  adminSession = session;
+  updateAdminVisibility();
+
+  if (!session?.user) {
+    adminRows = [];
+    renderAdminRows();
+    return;
+  }
+
+  try {
+    setAdminPanelMessage('');
+    await loadAdminRows();
+  } catch (error) {
+    console.error('Admin load error:', error);
+    setAdminPanelMessage('No se ha podido cargar el panel. Revisa las políticas RLS y que tu email admin esté autorizado.', true);
+  }
+}
+
+function bindAdminAuth() {
+  if (!adminLoginForm) return;
+
+  adminLoginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(adminLoginForm);
+    const email = String(formData.get('adminEmail') || '').trim().toLowerCase();
+    if (!email) {
+      setAdminAuthMessage('Introduce un email de administración.', true);
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: window.location.href.split('#')[0] + '#admin'
+        }
+      });
+
+      if (error) throw error;
+      setAdminAuthMessage('Te hemos enviado un enlace de acceso. Abre el correo y vuelve a esta web con la sesión iniciada.');
+      adminLoginForm.reset();
+    } catch (error) {
+      console.error('Admin auth error:', error);
+      setAdminAuthMessage('No se ha podido enviar el acceso. Comprueba la configuración de Supabase Auth.', true);
+    }
+  });
+
+  adminLogoutButton?.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    setAdminAuthMessage('Sesión cerrada.');
+    setAdminPanelMessage('');
+  });
+
+  adminRefreshButton?.addEventListener('click', async () => {
+    if (!adminSession?.user) return;
+    try {
+      await loadAdminRows();
+      setAdminPanelMessage('Panel actualizado.');
+    } catch (error) {
+      console.error('Admin refresh error:', error);
+      setAdminPanelMessage('No se ha podido actualizar el panel.', true);
+    }
+  });
+
+  adminSearch?.addEventListener('input', renderAdminRows);
+  adminStatusFilter?.addEventListener('change', renderAdminRows);
+
+  document.addEventListener('click', async (event) => {
+    const emailBtn = event.target.closest('[data-email-id]');
+    if (emailBtn) {
+      const row = adminRows.find((item) => String(item.id) === String(emailBtn.getAttribute('data-email-id')));
+      if (row) {
+        window.location.href = buildMailto(row);
+        setAdminPanelMessage('Borrador de email abierto en tu cliente local.');
+      }
+      return;
+    }
+
+    const saveBtn = event.target.closest('[data-save-id]');
+    if (saveBtn) {
+      const id = saveBtn.getAttribute('data-save-id');
+      const select = document.querySelector(`[data-status-id="${CSS.escape(id)}"]`);
+      const nextStatus = select?.value;
+      if (!id || !nextStatus) return;
+
+      try {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Guardando...';
+        await updatePreinscriptionStatus(id, nextStatus);
+        const row = adminRows.find((item) => String(item.id) === String(id));
+        if (row) row.status = nextStatus;
+        renderAdminRows();
+        setAdminPanelMessage(`Estado actualizado a ${nextStatus}.`);
+      } catch (error) {
+        console.error('Status update error:', error);
+        setAdminPanelMessage('No se ha podido actualizar el estado. Revisa permisos RLS para usuarios autenticados.', true);
+      }
+    }
+  });
+}
+
+async function initAdminSession() {
+  const { data } = await supabase.auth.getSession();
+  await handleAdminSession(data.session);
+
+  supabase.auth.onAuthStateChange(async (_event, session) => {
+    await handleAdminSession(session);
+  });
+}
+
+bindAdminAuth();
+initAdminSession();
